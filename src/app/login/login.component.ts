@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
 import { from } from 'rxjs';
 import {DataService} from '../services/data.service';
 
@@ -16,8 +17,15 @@ uname="Enter name";
 psw="";
 pswd="";
 accno="account number pleas";
+
+
+loginForm = this.fb.group({
+  accno:['',[Validators.required,Validators.minLength(4),Validators.maxLength(4),Validators.pattern('[0-9]*')]],
+  pswd:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]]
+
+});
   
-constructor(private router:Router,private dataService:DataService) { }
+constructor(private router:Router,private dataservice:DataService,private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
@@ -32,27 +40,29 @@ constructor(private router:Router,private dataService:DataService) { }
 
   }
 login(){
-    
-    var accnom = this.accno;
-    var passw = this.pswd;
-    var dataset=this.dataService.accountDetails;
-   
-    if (accnom in dataset) {
-      var psw1=dataset[accnom].password
+  
+  if(this.loginForm.valid){
+    alert("form valid")
+var accnom = this.loginForm.value.accno;
+    var passw = this.loginForm.value.pswd;
+    console.log(accnom);
 
-        if (passw==psw1) {
-            alert("authentication success")
-            this.router.navigateByUrl('dashboard');
-            
-        }
-        else {
-            alert("invalid password")
-        }
-      
+    var result=this.dataservice.login(accnom,passw)
+    console.log("hai");
+    if(result){
+            this.router.navigateByUrl("dashboard");
+
     }
-    else {
-        alert("invalid account number")
-    }
+    else{
+       alert("invalid creadential");
+
+     }
+
+    
+  }
+  else{
+    alert("invalid form")
+  }
   
   // let accnom = document.querySelector("#acno").value;//1000
   //       let passw = document.querySelector("#pwd").value;
