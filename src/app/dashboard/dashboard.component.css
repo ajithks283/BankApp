@@ -1,3 +1,7 @@
 .error{
     color: rgb(238, 8, 8);;
 }
+.red{
+    background-color: gray;
+    opacity: .5;
+}

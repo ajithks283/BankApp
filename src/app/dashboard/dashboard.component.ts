@@ -31,7 +31,12 @@ export class DashboardComponent implements OnInit {
 
 
   });
-  constructor(private fb:FormBuilder,public dataservice:DataService) { }
+  id="1234";
+  name:any;
+  acno:any;
+  constructor(private fb:FormBuilder,public dataservice:DataService) {
+    this.name=localStorage.getItem("name")
+   }
 
   ngOnInit(): void {
   }
@@ -39,6 +44,14 @@ export class DashboardComponent implements OnInit {
     if(this.depositForm.valid){
       alert("form valid")
       this.dataservice.deposit(this.depositForm.value.accno,this.depositForm.value.pswd,this.depositForm.value.amount)
+      .subscribe((data:any)=>{
+        if(data){
+          alert(data.message);
+          alert(data.balance);
+        }
+      },(data)=>{
+        alert(data.error.message);
+        })
     }
       else{
         alert("form not valid");
@@ -48,11 +61,33 @@ export class DashboardComponent implements OnInit {
   if(this.withdrawForm.valid){
     alert("form valid")
     this.dataservice.withdraw(this.withdrawForm.value.accno,this.withdrawForm.value.pswd,this.withdrawForm.value.amount)
+    .subscribe((data:any)=>{
+      if(data){
+        alert(data.message);
+        alert(data.balance);
+      }
+    },(data)=>{
+      alert(data.error.message);
+      })
   }
     else{
       alert("form not valid");
     }
   }
+
+  delete(){
+    this.acno=localStorage.getItem("acno");
+    //alert(this.acno);
+  }
+  onDelete($event:any){
+    alert("this is an alert from parent" +$event);
+    this.acno=null;
+  }
+  onCancel(){
+    this.acno=null;
+  }
+   
+  }
   
 
-}
+

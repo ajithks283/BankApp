@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
 aim="fgfg"
 uname="Enter name";
 psw="";
-pswd="";
+password="";
 accno="account number pleas";
 
 
@@ -43,26 +43,30 @@ login(){
   
   if(this.loginForm.valid){
     alert("form valid")
-var accnom = this.loginForm.value.accno;
+    var accnom = this.loginForm.value.accno;
     var passw = this.loginForm.value.pswd;
     console.log(accnom);
 
-    var result=this.dataservice.login(accnom,passw)
-    console.log("hai");
-    if(result){
-            this.router.navigateByUrl("dashboard");
-
-    }
-    else{
-       alert("invalid creadential");
+    this.dataservice.login(accnom,passw)
+    .subscribe((data:any)=>{
+      if(data){
+        alert(data.message);
+        localStorage.setItem("name",data.name)
+        localStorage.setItem("acno",data.acno)
+        //alert(data.name);
+        this.router.navigateByUrl("dashboard");
+      }
+    },(data)=>{
+      alert(data.error.message);
+    })
+  }
+     else{
+       alert("invalid form");
 
      }
 
-    
-  }
-  else{
-    alert("invalid form")
-  }
+   }
+  
   
   // let accnom = document.querySelector("#acno").value;//1000
   //       let passw = document.querySelector("#pwd").value;
@@ -90,4 +94,4 @@ var accnom = this.loginForm.value.accno;
   //       }
 
 }
-}
+

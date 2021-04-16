@@ -29,17 +29,19 @@ export class RegisterComponent implements OnInit {
   {
     //console.log(this.registerForm.get('uname')?.errors);
     if(this.registerForm.valid){
-      alert("form valid")
+      //alert("form valid")
       //alert("registration successfull")
-    var result=this.dataservice.register(this.registerForm.value.accno,this.registerForm.value.uname,this.registerForm.value.pswd)
-    if(result){
-      this.router.navigateByUrl("");
-
-    }
-    else{
-      this.router.navigateByUrl("");
-
-    }
+    this.dataservice.register(this.registerForm.value.accno,this.registerForm.value.uname,this.registerForm.value.pswd)
+    .subscribe((data:any)=>{
+      if(data){
+        alert(data.message);
+        this.router.navigateByUrl("");
+      }
+    },(data)=>{
+      alert(data.error.message);
+    })
+    
+    
     }
     else{
       alert("invalid form")

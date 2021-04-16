@@ -1,4 +1,4 @@
-<h1 class="text-center" style="color: rgb(34, 194, 146);"><strong>Welcome {{this.dataservice.currentuser}}Bank Dash
+<h1 class="text-center" style="color: rgb(34, 194, 146);"><strong>Welcome {{name}}  Bank Dash
         board</strong></h1>
 <form [formGroup]="depositForm" (ngSubmit)="deposit()">
     <div class="container">
@@ -9,8 +9,8 @@
                     <div class="col">
 
 
-                        <h1>Cash Deposit form</h1>
-                        <table>
+                        <h1 appHighlight>Cash Deposit form</h1>
+                        <table [ngClass]="acno? 'red' :''">
 
                             <tr>
                                 <td><label for="accno">Account number1</label></td>
@@ -68,7 +68,7 @@
 
 
                         <h1>Cash withrawel form</h1>
-                        <table>
+                        <table [ngClass]="acno? 'red' :''">
 
                             <tr>
                                 <td><label for="accno">Account number1</label></td>
@@ -106,7 +106,17 @@
             
         </div>
     </div>
-        
+    
            
       </form>
-
+      <br>
+      <br>
+      <div>
+      <!-- <app-delet-confirmation (onCancel)="onCancel()" (onDelete)="onDelete($event)" [item]="acno"></app-delet-confirmation>
+      <button type="submit" class="btn btn-primary" value="proceed" (click)="delete()">Delet Account</button>
+        -->
+        <app-delet-confirmation (onCancel)="onCancel()" (onDelete)="onDelete($event)" [item]="acno"></app-delet-confirmation> 
+        <br>
+        <button type="submit" class="btn btn-primary" value="proceed" (click)="delete()">Delet Account</button>
+      
+    </div>
